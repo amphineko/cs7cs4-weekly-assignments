@@ -1,8 +1,10 @@
 import numpy as np
 from matplotlib import pyplot as plt
-from sklearn.svm import SVC
+from sklearn.svm import LinearSVC
 
 from load import load_dataset
+
+C = 0.1
 
 if __name__ == '__main__':
     plt.set_cmap('Set2')
@@ -19,11 +21,14 @@ if __name__ == '__main__':
     x_test, y_test = x_all[part:], y_all[part:]  # test dataset
 
     # fit the model with training dataset
-    svc = SVC(kernel='linear')
-    svc.fit(x, y)
+    svc = LinearSVC(C=C)
+    svc = svc.fit(x, y)
+    print("C=%f, intercept %f, slope %f" %
+          (C, svc.intercept_[0], svc.coef_.T[0]))
 
     # predict with test dataset
     y_r = svc.predict(x_test)
+    print('score: ', svc.score(x_test, y_test))
 
     # configure plotting boundary
     framing = 0.25
@@ -53,7 +58,7 @@ if __name__ == '__main__':
                 'test: ok',
                 'test: error',
                 ])
-    plt.title('LinearSVC')
+    plt.title('LinearSVC, C=' + str(C))
     plt.xlabel(r'$x_1$')
     plt.ylabel(r'$x_2$')
     plt.savefig('LinearSVC')
