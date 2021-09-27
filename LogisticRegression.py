@@ -23,9 +23,11 @@ if __name__ == '__main__':
     logreg.fit(x_all, y_all)
     incpt = logreg.intercept_[0]
     w1, w2 = logreg.coef_.T
+    print(incpt, w1, w2)
 
     # predict with test dataset
     y_r = logreg.predict(x_test)
+    print('score: ', logreg.score(x, y))
 
     # configure plotting boundary
     framing = 0.25
